@@ -27,10 +27,11 @@ var (
 
 // Filter is an opaque Bloom filter type
 type Filter struct {
-	lock sync.RWMutex
-	bits []uint64
 	keys []uint64
 	m    uint64 // number of bits the "bits" field should recognize
+
+	lock sync.RWMutex // lock guards accesses to the fields below
+	bits []uint64
 	n    uint64 // number of inserted elements
 }
 
