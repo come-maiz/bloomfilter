@@ -146,3 +146,14 @@ func (f *Filter) Union(f2 *Filter) (out *Filter, err error) {
 	out.n = f.n + f2.n
 	return out, nil
 }
+
+// Clear clears the bloom filter.
+func (f *Filter) Clear() {
+	f.lock.Lock()
+	defer f.lock.Unlock()
+
+	for i, bitword := range f.bits {
+		f.bits[i] = 0
+	}
+	f.n = 0 // Also update the counters
+}
